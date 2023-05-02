@@ -37,6 +37,11 @@ class Vaccination extends Model
 
     public function doctor()
     {
-        return $this->belongsTo(Medical::class, 'doctor_id', 'officer_id');
+        return $this->belongsTo(Medical::class, 'doctor_id');
+    }
+
+    public function officer()
+    {
+        return $this->belongsTo(Medical::class, 'officer_id');
     }
 }

@@ -22,7 +22,7 @@ class Society extends Authenticatable
         'gender',
         'address',
         'regional_id',
-        'login_token',
+        'login_tokens',
         'created_at',
         'updated_at',
     ];

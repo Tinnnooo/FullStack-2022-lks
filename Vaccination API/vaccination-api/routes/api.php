@@ -34,4 +34,5 @@ Route::middleware(TokenCheck::class)->prefix('v1')->group(function () {
     Route::get('/spots', [SpotController::class, 'getSpotsByRegion']);
     Route::get('/spots/{spot_id}', [SpotController::class, 'getSpotBySpotId']);
     Route::post('/vaccinations', [VaccinationController::class, 'registerVaccination']);
+    Route::get('/vaccinations', [VaccinationController::class, 'getAllSocietyVaccinations']);
 });

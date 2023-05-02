@@ -20,7 +20,7 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female']);
             $table->text('address');
             $table->unsignedBigInteger('regional_id')->length(20);
-            $table->text('login_token');
+            $table->text('login_tokens');
             $table->timestamps();
         });
     }
