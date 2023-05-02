@@ -31,4 +31,14 @@ class Society extends Authenticatable
         'password',
         'login_tokens',
     ];
+
+    public function regional()
+    {
+        return $this->belongsTo(Regional::class, 'regional_id');
+    }
+
+    public function vaccinations()
+    {
+        return $this->hasMany(Vaccination::class);
+    }
 }

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Models\Society;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -12,18 +14,43 @@ class AuthController extends Controller
     {
         $credentials = $request->validated();
 
-        if (!Auth::attempt($credentials, true, 'societies')) {
+        $society = Society::with('regional')->where('id_card_number', $credentials['id_card_number'])->first();
+
+        if (!$society || $society->password !== $credentials['password']) {
             return response([
-                'error' => 'Login failed'
-            ], 422);
+                "message" => "ID Card Number or Password incorrect"
+            ], 401);
         }
 
-        $user = Auth::user();
-        $token = md5($user->password);
+        $token = md5($society->id_card_number);
+        $society->update(['login_tokens' => $token]);
+
+        $regional = [
+            "id" => $society->regional->id,
+            "province" => $society->regional->province,
+            "district" => $society->regional->district,
+        ];
+
 
         return response([
-            'user' => $user,
-            'token' => $token,
-        ]);
+            "name" => $society->name,
+            "born_date" => $society->born_date,
+            "gender" => $society->gender,
+            "address" => $society->address,
+            "token" => $society->login_tokens,
+            "regional" => $regional,
+        ], 200);
+    }
+
+    public function logout(Request $request)
+    {
+
+        $society = Society::where('login_tokens', $request->token)->first();
+
+        $society->update(['login_tokens' => null]);
+
+        return response([
+            "message" => "Logout success"
+        ], 200);
     }
 }
