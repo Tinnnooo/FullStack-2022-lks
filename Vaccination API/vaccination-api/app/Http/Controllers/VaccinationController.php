@@ -73,7 +73,7 @@ class VaccinationController extends Controller
         Vaccination::create($data);
 
         return response([
-            "message" => ($vaccinationCount = 0 ? "First " : "Second ") . "vaccination registered succesful"
+            "message" => ($vaccinationCount = 0 ? "First " : "Second ") . "vaccination registered successful"
         ], 200);
     }
 
@@ -84,10 +84,5 @@ class VaccinationController extends Controller
         $vaccinations = Vaccination::where('society_id', $society->id)->get();
 
         return new VaccinationResource($vaccinations);
-
-        $firstVaccination = $vaccinations->first();
-        $secondVaccination = $vaccinations->skip(1)->first();
-
-        return $secondVaccination;
     }
 }
