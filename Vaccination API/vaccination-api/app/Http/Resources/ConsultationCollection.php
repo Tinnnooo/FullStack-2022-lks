@@ -18,7 +18,7 @@ class ConsultationCollection extends ResourceCollection
     public function toArray(Request $request): array
     {
         return [
-            "collection" => $this->collection
+            "consultation" => $this->collection
         ];
     }
 }

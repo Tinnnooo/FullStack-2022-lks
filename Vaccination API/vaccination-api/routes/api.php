@@ -29,10 +29,14 @@ Route::group(['prefix' => 'v1/auth'], function () {
 });
 
 Route::middleware(TokenCheck::class)->prefix('v1')->group(function () {
+    Route::get('/me', [AuthController::class, 'me']);
+
     Route::get('/consultations', [ConsultationController::class, 'getConsultations']);
     Route::post('/consultations', [ConsultationController::class, 'requestConsultation']);
+
     Route::get('/spots', [SpotController::class, 'getSpotsByRegion']);
     Route::get('/spots/{spot_id}', [SpotController::class, 'getSpotBySpotId']);
-    Route::post('/vaccinations', [VaccinationController::class, 'registerVaccination']);
-    Route::get('/vaccinations', [VaccinationController::class, 'getAllSocietyVaccinations']);
+
+    Route::post('/vaccinations', [VaccinationController::class, 'register']);
+    Route::get('/vaccinations', [VaccinationController::class, 'getMyVaccination']);
 });

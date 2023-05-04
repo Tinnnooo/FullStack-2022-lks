@@ -2,44 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\CheckPassword;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\LoginResource;
+use App\Http\Resources\UserResource;
 use App\Models\Society;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(CheckPassword::class)->only("login");
+    }
+
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
 
-        $society = Society::with('regional')->where('id_card_number', $credentials['id_card_number'])->first();
-
-        if (!$society || $society->password !== $credentials['password']) {
-            return response([
-                "message" => "ID Card Number or Password incorrect"
-            ], 401);
-        }
+        $society = Society::where('id_card_number', $credentials['id_card_number'])->first();
 
         $token = md5($society->id_card_number);
         $society->update(['login_tokens' => $token]);
 
-        $regional = [
-            "id" => $society->regional->id,
-            "province" => $society->regional->province,
-            "district" => $society->regional->district,
-        ];
-
-
-        return response([
-            "name" => $society->name,
-            "born_date" => $society->born_date,
-            "gender" => $society->gender,
-            "address" => $society->address,
-            "token" => $society->login_tokens,
-            "regional" => $regional,
-        ], 200);
+        return new LoginResource($society);
     }
 
     public function logout(Request $request)
@@ -52,5 +40,12 @@ class AuthController extends Controller
         return response([
             "message" => "Logout success"
         ], 200);
+    }
+
+    public function me(Request $request)
+    {
+        $society = Society::where('login_tokens', $request->token)->first();
+
+        return new UserResource($society);
     }
 }
