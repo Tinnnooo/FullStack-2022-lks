@@ -5,6 +5,7 @@ import Dashboard from "./views/Dashboard";
 import Login from "./views/Login";
 import CreateConsultation from "./views/CreateConsultation";
 import VaccinationSpot from "./views/VaccinationSpot";
+import VaccinationSpotShow from "./views/VaccinationSpotShow";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "/vaccination-spot",
         element: <VaccinationSpot />,
+      },
+      {
+        path: "/vaccination-spot/:id",
+        element: <VaccinationSpotShow />,
       },
     ],
   },

@@ -27,14 +27,16 @@ class VaccinationCheck
             ], 401);
         }
 
-        $firstVaccination = $vaccination->first();
-        $firstVaccinationDate = Carbon::createFromFormat("Y-m-d", $firstVaccination->date);
-        $firstAfter30Days = Carbon::parse($firstVaccinationDate->addDays(30))->format("Y-m-d");
+        if($vaccination->first()){
+            $firstVaccination = $vaccination->first();
+            $firstVaccinationDate = Carbon::createFromFormat("Y-m-d", $firstVaccination->date);
+            $firstAfter30Days = Carbon::parse($firstVaccinationDate->addDays(30))->format("Y-m-d");
 
-        if($request->date < $firstAfter30Days){
-            return response([
-                "message" => "Wait at least +30 days from 1st Vaccination",
-            ], 401);
+            if($request->date < $firstAfter30Days){
+                return response([
+                    "message" => "Wait at least +30 days from 1st Vaccination",
+                ], 401);
+            }
         }
 
         $request->attributes->add(["vaccinationCount" => $vaccination->count(), "societyId" => $society->id]);

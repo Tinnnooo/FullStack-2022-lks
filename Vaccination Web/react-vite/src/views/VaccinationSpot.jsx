@@ -4,18 +4,28 @@ import { axiosClient } from "../axios";
 import VaccinationSpotsList from "./components/VaccinationSpotsList";
 
 export default function VaccinationSpot() {
-  const { currentUser, vaccinations } = useStateContext();
+  const { currentUser, vaccinations, setVaccinations } = useStateContext();
+  const [loading, setLoading] = useState(false);
 
   const [spots, setSpots] = useState([]);
+
+  const getVaccinations = () => {
+    axiosClient.get("/vaccinations").then(({ data }) => {
+      setVaccinations(data.vaccinations);
+    });
+  };
 
   const getSpotsRegion = () => {
     axiosClient.get("/spots").then(({ data }) => {
       setSpots(data.spots);
+      setLoading(false);
     });
   };
 
   useEffect(() => {
     document.title = `List Spots in ${currentUser.regional}`;
+    setLoading(true);
+    getVaccinations();
     getSpotsRegion();
   }, []);
 
@@ -36,72 +46,22 @@ export default function VaccinationSpot() {
           </h4>
         </div>
 
-        <div className="section-body">
-          {spots &&
-            spots.map((spot) => (
-              <VaccinationSpotsList key={spot.id} spot={spot} />
-            ))}
-          {/* <article className="spot">
-            <div className="row">
-              <div className="col-5">
-                <h5 className="text-primary">Usamah Hospital</h5>
-                <span className="text-muted">
-                  Ds. Abdullah No. 31, DKI Jakarta
-                </span>
-              </div>
-              <div className="col-4">
-                <h5>Available vaccines</h5>
-                <span className="text-muted">Sinovac, Moderna, Pfizer.</span>
-              </div>
-              <div className="col-3">
-                <h5>Serve</h5>
-                <span className="text-muted">Only first vaccination</span>
-              </div>
-            </div>
-          </article>
+        {loading && (
+          <div className="text-md-center font-weight-bold">Loading...</div>
+        )}
 
-          <article className="spot unavailable">
-            <div className="row">
-              <div className="col-5">
-                <h5 className="text-primary">Nasyidah Hospital</h5>
-                <span className="text-muted">
-                  Ki. Bakau Griya Utama No. 476, DKI Jakarta
-                </span>
-              </div>
-              <div className="col-4">
-                <h5>Available vaccines</h5>
-                <span className="text-muted">
-                  Sinovac, AstraZeneca, Moderna, Pfizer.
-                </span>
-              </div>
-              <div className="col-3">
-                <h5>Serve</h5>
-                <span className="text-muted">Only second vaccination</span>
-              </div>
-            </div>
-          </article>
-
-          <article className="spot">
-            <div className="row">
-              <div className="col-5">
-                <h5 className="text-primary">Napitupulu Hospital</h5>
-                <span className="text-muted">
-                  Jln. Laswi No. 228, DKI Jakarta
-                </span>
-              </div>
-              <div className="col-4">
-                <h5>Available vaccines</h5>
-                <span className="text-muted">
-                  Sinovac, AstraZeneca, Sinnopharm.
-                </span>
-              </div>
-              <div className="col-3">
-                <h5>Serve</h5>
-                <span className="text-muted">Both vaccination</span>
-              </div>
-            </div>
-          </article> */}
-        </div>
+        {!loading && (
+          <div className="section-body">
+            {spots &&
+              spots.map((spot) => (
+                <VaccinationSpotsList
+                  key={spot.id}
+                  spot={spot}
+                  vaccinations={vaccinations}
+                />
+              ))}
+          </div>
+        )}
       </div>
     </main>
   );

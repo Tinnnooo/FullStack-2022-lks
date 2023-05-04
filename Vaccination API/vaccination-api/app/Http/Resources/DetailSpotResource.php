@@ -20,7 +20,7 @@ class DetailSpotResource extends JsonResource
             "address" => $this->address,
             "serve" => $this->serve,
             "address" => $this->address,
-            "capacity" => $this->address,
+            "capacity" => $this->capacity,
         ];
     }
 }

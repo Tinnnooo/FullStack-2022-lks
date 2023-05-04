@@ -5,6 +5,16 @@ export default function Toast() {
   const { toast } = useStateContext();
 
   return (
-    <>{toast.show && <div className="toast-message">{toast.message}</div>}</>
+    <>
+      {toast.show && (
+        <div
+          className={`toast-message ${
+            toast.color === "red" ? "bg-danger" : "bg-success"
+          }`}
+        >
+          {toast.message}
+        </div>
+      )}
+    </>
   );
 }

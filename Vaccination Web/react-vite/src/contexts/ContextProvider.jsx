@@ -22,12 +22,12 @@ export const ContextProvider = ({ children }) => {
   );
   const [vaccinations, setVaccinations] = useState({});
   const [consultations, setConsultations] = useState({});
-  const [toast, setToast] = useState({ message: "", show: false });
+  const [toast, setToast] = useState({ message: "", show: false, color: "" });
 
-  const showToast = (message) => {
-    setToast({ message, show: true });
+  const showToast = (message, color) => {
+    setToast({ message: message, show: true, color: color });
     setTimeout(() => {
-      setToast({ message: "", show: false });
+      setToast({ message: "", show: false, color: "" });
     }, 3000);
   };
 

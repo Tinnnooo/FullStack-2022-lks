@@ -29,7 +29,7 @@ class VaccinationController extends Controller
         $vaccinationCount = $request->get('vaccinationCount');
 
         return response([
-            "message" => $vaccinationCount = 0 ? "First " : "Second " . "vaccination registered successful"
+            "message" => ($vaccinationCount == 0 ? "First " : "Second ") . "vaccination registered successful"
         ], 200);
     }
 
