@@ -15,10 +15,10 @@ export default function VaccinationSpotsList({ spot }) {
             <h5>Available vaccines</h5>
             <span className="text-muted">
               {vaccines.map((vaccine, index) => (
-                <>
+                <span key={index}>
                   {vaccine}
-                  {index !== vaccines - 1 ? ", " : ""}
-                </>
+                  {index !== vaccines.length - 1 ? ", " : ""}
+                </span>
               ))}
             </span>
           </div>
