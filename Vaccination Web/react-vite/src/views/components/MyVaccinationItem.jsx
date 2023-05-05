@@ -3,31 +3,33 @@ import { Link } from "react-router-dom";
 function MyVaccinationItemTable({ vaccination }) {
   return (
     <table className="table table-striped mb-0">
-      <MyVaccinationItemRow
-        key="Status"
-        name="Status"
-        data={vaccination.status === "done" ? "Vaccinated" : "Registered"}
-      />
-      <MyVaccinationItemRow
-        key="Date"
-        name="Date"
-        data={vaccination.vaccination_date}
-      />
-      <MyVaccinationItemRow
-        key="Spot"
-        name="Spot"
-        data={vaccination.spot.name}
-      />
-      <MyVaccinationItemRow
-        key="Vaccine"
-        name="Vaccine"
-        data={!vaccination.vaccine ? "-" : vaccination.vaccine.name}
-      />
-      <MyVaccinationItemRow
-        key="Vaccinator"
-        name="Vaccinator"
-        data={!vaccination.vaccinator ? "-" : vaccination.vaccinator.name}
-      />
+      <tbody>
+        <MyVaccinationItemRow
+          key="Status"
+          name="Status"
+          data={vaccination.status === "done" ? "Vaccinated" : "Registered"}
+        />
+        <MyVaccinationItemRow
+          key="Date"
+          name="Date"
+          data={vaccination.vaccination_date}
+        />
+        <MyVaccinationItemRow
+          key="Spot"
+          name="Spot"
+          data={vaccination.spot.name}
+        />
+        <MyVaccinationItemRow
+          key="Vaccine"
+          name="Vaccine"
+          data={!vaccination.vaccine ? "-" : vaccination.vaccine.name}
+        />
+        <MyVaccinationItemRow
+          key="Vaccinator"
+          name="Vaccinator"
+          data={!vaccination.vaccinator ? "-" : vaccination.vaccinator.name}
+        />
+      </tbody>
     </table>
   );
 }

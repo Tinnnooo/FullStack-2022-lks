@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import MyVaccinationListItem from "./MyVaccinationItem";
 
 export default function MyVaccination({ vaccinations, consultation }) {
