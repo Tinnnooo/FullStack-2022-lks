@@ -1,70 +1,43 @@
 import { Link } from "react-router-dom";
-import MyVaccinationListItem from "./MyVaccinationListItem";
+import MyVaccinationListItem from "./MyVaccinationItem";
 
-export default function MyVaccination({ vaccinations, consultations }) {
+export default function MyVaccination({ vaccinations, consultation }) {
+  const details = [];
+
+  if (consultation && consultation.status === "accepted") {
+    details.push(
+      <MyVaccinationListItem
+        key={vaccinations.first.id}
+        vaccination={vaccinations.first}
+        dose="First"
+      />
+    );
+
+    if (vaccinations.first) {
+      details.push(
+        <MyVaccinationListItem
+          key={vaccinations}
+          vaccination={vaccinations.second}
+          dose="Second"
+        />
+      );
+    }
+  } else {
+    details.push(
+      <div className="col-md-12">
+        <div className="alert alert-warning">
+          Your consultation must be approved by doctor to get the vaccine.
+        </div>
+      </div>
+    );
+  }
   return (
     <section className="consultation-section mb-5">
       <div className="section-header mb-3">
         <h4 className="section-title text-muted">My Vaccinations</h4>
       </div>
       <div className="section-body">
-        <div className="row mb-4">
-          {Array.isArray(consultations) &&
-            !consultations.find(
-              (consultation) => consultation.status === "accepted"
-            ) && (
-              <div className="col-md-12">
-                <div className="alert alert-warning">
-                  Your consultation must be approved by doctor to get the
-                  vaccine.
-                </div>
-              </div>
-            )}
-
-          {Array.isArray(consultations) &&
-            consultations.find(
-              (consultation) => consultation.status === "accepted"
-            ) && (
-              <>
-                {!vaccinations.first && (
-                  <div className="col-md-4">
-                    <div className="card card-default">
-                      <div className="card-header border-0">
-                        <h5 className="mb-0">First Vaccination</h5>
-                      </div>
-                      <div className="card-body">
-                        <Link to="/vaccination-spot">
-                          + Register vaccination
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {vaccinations.first && (
-                  <MyVaccinationListItem
-                    first={vaccinations.first}
-                    second={vaccinations.second}
-                  />
-                )}
-
-                {vaccinations.first && !vaccinations.second && (
-                  <div className="col-md-4">
-                    <div className="card card-default">
-                      <div className="card-header border-0">
-                        <h5 className="mb-0">Second Vaccination</h5>
-                      </div>
-                      <div className="card-body">
-                        <Link to="/vaccination-spot">
-                          + Register vaccination
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </>
-            )}
-        </div>
+        <div className="row mb-4">{details}</div>
       </div>
     </section>
   );

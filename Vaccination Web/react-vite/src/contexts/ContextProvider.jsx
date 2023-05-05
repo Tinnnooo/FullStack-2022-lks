@@ -21,7 +21,7 @@ export const ContextProvider = ({ children }) => {
     localStorage.getItem("TOKEN") || ""
   );
   const [vaccinations, setVaccinations] = useState({});
-  const [consultations, setConsultations] = useState({});
+  const [consultation, setConsultation] = useState({});
   const [toast, setToast] = useState({ message: "", show: false, color: "" });
 
   const showToast = (message, color) => {
@@ -49,8 +49,8 @@ export const ContextProvider = ({ children }) => {
         setToken,
         vaccinations,
         setVaccinations,
-        consultations,
-        setConsultations,
+        consultation,
+        setConsultation,
         toast,
         showToast,
       }}

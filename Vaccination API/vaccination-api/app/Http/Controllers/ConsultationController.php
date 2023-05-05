@@ -35,8 +35,8 @@ class ConsultationController extends Controller
 
         $society = Society::where('login_tokens', $request->token)->first();
 
-        $consultations = Consultation::where('society_id', $society->id)->get();
+        $consultations = Consultation::where('society_id', $society->id)->first();
 
-        return new ConsultationCollection($consultations);
+        return new ConsultationResource($consultations);
     }
 }

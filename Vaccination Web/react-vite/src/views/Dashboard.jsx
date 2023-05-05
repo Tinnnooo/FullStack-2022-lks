@@ -6,13 +6,13 @@ import { useStateContext } from "../contexts/ContextProvider";
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(false);
-  const { consultations, setConsultations, vaccinations, setVaccinations } =
+  const { consultation, setConsultation, vaccinations, setVaccinations } =
     useStateContext();
 
   const getConsultations = () => {
     setLoading(true);
     axiosClient.get("/consultations").then(({ data }) => {
-      setConsultations(data.consultation);
+      setConsultation(data);
     });
   };
 
@@ -43,10 +43,10 @@ export default function Dashboard() {
         )}
         {!loading && (
           <>
-            <MyConsultation consultations={consultations} />
+            <MyConsultation consultation={consultation} />
             <MyVaccination
               vaccinations={vaccinations}
-              consultations={consultations}
+              consultation={consultation}
             />
           </>
         )}
