@@ -1,7 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 import { useEffect } from "react";
-import { axiosClient } from "../../axios";
+import { axiosClient, invalidToken } from "../../axios";
 import Toast from "./Toast";
 import Footer from "./Footer";
 
@@ -11,6 +11,7 @@ export default function DefaultLayout() {
   const { showToast } = useStateContext();
 
   if (!userToken) {
+    invalidToken();
     return <Navigate to="/login" />;
   }
 
